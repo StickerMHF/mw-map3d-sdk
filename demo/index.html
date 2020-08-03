@@ -1,0 +1,44 @@
+<!--
+ * @Description: 
+ * @Author: Sticker
+ * @Date: 2020-08-03 14:13:47
+ * @LastEditTime: 2020-08-03 15:21:03
+ * @LastEditors: huacong
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="./jquery.js"></script>
+    <!--基础包-->
+    <script src="../dist/dc.base.js"></script>
+    <!--核心包-->
+    <script src="../dist/dc.core.js"></script>
+    <!--主要样式-->
+    <link href="../dist/dc.core.css" rel="stylesheet" type="text/css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map-contaienr" style="width: 100%; height: 100%; background: grey; position: relative;">
+
+    </div>
+    <script>
+        DC.ready(() => {
+            let viewer = new DC.Viewer("map-contaienr")
+        })
+    </script>
+
+</body>
+
+</html>
