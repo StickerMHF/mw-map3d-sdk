@@ -16,6 +16,7 @@ import Position from './position/Position'
 import Transform from './transform/Transform'
 import Parse from './parse/Parse'
 
+
 const base = {
   DomUtil,
   Util,

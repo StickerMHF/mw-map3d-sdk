@@ -8,6 +8,10 @@
 import ImageryLayerFactory from './imagery/ImageryLayerFactory'
 import TerrainFactory from './terrain/TerrainFactory'
 import Viewer from './viewer/Viewer'
+
+// 移植的地图的类
+import Map3D from './threedMap/treedMap'
+
 import {
   GeoJsonLayer,
   HtmlLayer,
@@ -69,7 +73,8 @@ const core = {
   Polygon,
   Model,
   Tileset,
-  Math: Cesium.Math
+  Math: Cesium.Math,
+  Map3D
 }
 
 DC.mixin(core)
