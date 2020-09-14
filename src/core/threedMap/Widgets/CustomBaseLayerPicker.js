@@ -66,7 +66,7 @@ CustomBaseLayerPicker.prototype._createImageryProviderModel = function(layer) {
         return new Cesium.ProviderViewModel({
             name: layer.name,
             tooltip: layer.desc | '',
-            iconUrl: Cesium.buildModuleUrl('Widgets/Images/ImageryProviders/mapboxSatellite.png'),
+            iconUrl: Cesium.buildModuleUrl('Images/ImageryProviders/mapboxSatellite.png'),
             category: '默认',
             creationFunction: function() {
                 return imageryProvider;

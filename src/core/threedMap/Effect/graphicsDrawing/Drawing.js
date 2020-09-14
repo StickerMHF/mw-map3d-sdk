@@ -1,6 +1,5 @@
 const { Cesium } = DC.Namespace
 
-import Color from '../../utils/Color';
 import defined from '../../utils/defined';
 import CesiumUtils from '../../utils/CesiumUtils';
 import PolylineTrailLinkMaterialProperty from '../../Material/PolylineTrailLinkMaterial';
@@ -14,14 +13,14 @@ function Drawing(viewer) {
 //设置实体的材质
 var drawGraphicMaterial = {
     //normal类型
-    normal: new Color(1.0, 1.0, 0.0, 0.5),
+    normal: new Cesium.Color(1.0, 1.0, 0.0, 0.5),
     //高亮显示类型
-    heightLight: new Color(1.0, 0.0, 0.0, 0.5),
+    heightLight: new Cesium.Color(1.0, 0.0, 0.0, 0.5),
     //ODline类型
-    ODline: new PolylineTrailLinkMaterialProperty(Color.BLUE, 6000),
+    ODline: new PolylineTrailLinkMaterialProperty(Cesium.Color.BLUE, 6000),
     //网格类型
     grid: new Cesium.GridMaterialProperty({
-        color: Color.YELLOW,
+        color: Cesium.Color.YELLOW,
         cellAlpha: 0.2,
         lineCount: new Cesium.Cartesian2(8, 8),
         lineThickness: new Cesium.Cartesian2(2.0, 2.0)
@@ -118,10 +117,10 @@ Drawing.prototype.drawGraphic = function(options) {
                 type: 'point',
                 position: position,
                 point: {
-                    color: new Color(1, 1, 0, 0.5),
+                    color: new Cesium.Color(1, 1, 0, 0.5),
                     pixelSize: 10,
                     outline: true,
-                    outlineColor: Color.BLACK,
+                    outlineColor: Cesium.Color.BLACK,
                     outlineWidth: 0,
                     show: true
                 },
@@ -218,10 +217,10 @@ Drawing.prototype.createPoint = function(worldPosition, redrawoptions) {
         id: id,
         position: redrawoptions.coordinates || worldPosition,
         point: {
-            color: new Color(1, 1, 0, 0.5),
+            color: new Cesium.Color(1, 1, 0, 0.5),
             pixelSize: 10,
             outline: true,
-            outlineColor: Color.BLACK,
+            outlineColor: Cesium.Color.BLACK,
             outlineWidth: 0,
             show: true
         },
@@ -244,7 +243,7 @@ Drawing.prototype.drawShape = function(drawingMode, positionData, activeShapePoi
             id: id,
             type: 'polyline',
             polyline: {
-                material: redrawoptions.material || new Color(1, 1, 0, 0.5),
+                material: redrawoptions.material || new Cesium.Color(1, 1, 0, 0.5),
                 positions: redrawoptions.coordinates || positionData,
                 width: 3,
                 clampToGround: true
@@ -259,7 +258,7 @@ Drawing.prototype.drawShape = function(drawingMode, positionData, activeShapePoi
             polygon: {
                 hierarchy: redrawoptions.coordinates || positionData,
                 outline: true,
-                material: redrawoptions.material || new Color(1.0, 1.0, 0.0, 0.5),
+                material: redrawoptions.material || new Cesium.Color(1.0, 1.0, 0.0, 0.5),
                 perPositionHeight: true
             },
             description: description
@@ -287,7 +286,7 @@ Drawing.prototype.drawShape = function(drawingMode, positionData, activeShapePoi
                     var r = Math.sqrt(Math.pow(value[0].x - value[value.length - 1].x, 2) + Math.pow(value[0].y - value[value.length - 1].y, 2));
                     return r ? r : r + 1;
                 }, false),
-                material: redrawoptions.material || new Color(1.0, 1.0, 0.0, 0.5),
+                material: redrawoptions.material || new Cesium.Color(1.0, 1.0, 0.0, 0.5),
                 height: height + 25
             },
             description: description
@@ -309,7 +308,7 @@ Drawing.prototype.drawShape = function(drawingMode, positionData, activeShapePoi
                 coordinates: typeof redrawoptions.coordinates !== 'undefined' ? new Cesium.Rectangle(redrawoptions.coordinates.west, redrawoptions.coordinates.south, redrawoptions.coordinates.east, redrawoptions.coordinates.north) : new Cesium.CallbackProperty(function() {
                     return Cesium.Rectangle.fromCartesianArray(arr);
                 }, false),
-                material: redrawoptions.material || new Color(1.0, 1.0, 0.0, 0.5),
+                material: redrawoptions.material || new Cesium.Color(1.0, 1.0, 0.0, 0.5),
                 height: height1 + 25
             },
             description: description
@@ -457,7 +456,7 @@ Drawing.prototype.exportMaterial = function(material, lineNum) {
             exportmaterials = drawGraphicMaterial.normal;
             break;
         case 'ODline':
-            exportmaterials = new PolylineTrailLinkMaterialProperty(new Color(30 / 255, 144 / 255, 255 / 255, 1), lineNum * 800);
+            exportmaterials = new PolylineTrailLinkMaterialProperty(new Cesium.Color(30 / 255, 144 / 255, 255 / 255, 1), lineNum * 800);
             break;
         case 'grid':
             exportmaterials = drawGraphicMaterial.grid;

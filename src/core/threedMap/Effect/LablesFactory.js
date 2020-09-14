@@ -13,6 +13,7 @@ import labeltype6 from './Label/labeltype6.js';
 import labeltype7 from './Label/labeltype7.js';
 import labeltype8 from './Label/labeltype8.js';
 import labeltype9 from './Label/labeltype9.js';
+import labeltype10 from './Label/labeltype10.js';
 
 import ElliposidFadeMaterialProperty from '../Material/ElliposidFadeMaterial';
 
@@ -39,8 +40,8 @@ LablesFactory.prototype.add = function() {
             var position = viewer.scene.camera.pickEllipsoid(e.position, viewer.scene.globe.ellipsoid);
             var ellipsoid = viewer.scene.globe.ellipsoid;
             var cartographic = ellipsoid.cartesianToCartographic(position);
-            var lat = Cesium.Maths.toDegrees(cartographic.latitude);
-            var lng = Cesium.Maths.toDegrees(cartographic.longitude);
+            var lat = Cesium.Math.toDegrees(cartographic.latitude);
+            var lng = Cesium.Math.toDegrees(cartographic.longitude);
             var addoption = {
                 position: [lng, lat, 50],
                 id: CesiumUtils.getID(10)
@@ -87,6 +88,10 @@ LablesFactory.prototype.add = function() {
                         // eslint-disable-next-line no-new
                         new labeltype9(viewer, addoption1, createEvents);
                         break;
+                    case 'type10':
+                        // eslint-disable-next-line no-new
+                        new labeltype10(viewer, addoption1, createEvents);
+                        break;
                     default:
                         // eslint-disable-next-line no-new
                         new labeltype4(viewer, addoption1, createEvents);
@@ -120,8 +125,8 @@ LablesFactory.prototype.add = function() {
                 var cartesian = viewer.scene.globe.pick(ray, viewer.scene);
                 var ellipsoid = viewer.scene.globe.ellipsoid;
                 var cartographic = ellipsoid.cartesianToCartographic(cartesian);
-                var lat = Cesium.Maths.toDegrees(cartographic.latitude);
-                var lng = Cesium.Maths.toDegrees(cartographic.longitude);
+                var lat = Cesium.Math.toDegrees(cartographic.latitude);
+                var lng = Cesium.Math.toDegrees(cartographic.longitude);
                 var height = (LabelUtils.pdValues(pointDraged.id.description) ? pointDraged.id.description.getValue().heights : 0);
                 var st = {
                     id: pickEntityName,
@@ -152,8 +157,8 @@ LablesFactory.prototype.add = function() {
             var cartesian = viewer.scene.globe.pick(ray, viewer.scene);
             var ellipsoid = viewer.scene.globe.ellipsoid;
             var cartographic = ellipsoid.cartesianToCartographic(cartesian);
-            var lat = Cesium.Maths.toDegrees(cartographic.latitude);
-            var lng = Cesium.Maths.toDegrees(cartographic.longitude);
+            var lat = Cesium.Math.toDegrees(cartographic.latitude);
+            var lng = Cesium.Math.toDegrees(cartographic.longitude);
             var height = (LabelUtils.pdValues(pointDraged.id.description) ? pointDraged.id.description.getValue().heights : 0);
             cartesian = Cesium.Cartesian3.fromDegrees(lng, lat, height, ellipsoid);
             pointDraged.id.position.setValue(cartesian);
@@ -212,16 +217,16 @@ LablesFactory.prototype.updatetype1 = function(option) {
                 if (LabelUtils.pdValues(option.background)) {
                     switch (option.background) {
                         case 'background1':
-                            option.background = Cesium.buildModuleUrl('Widgets/Images/videoBorad.png');
+                            option.background = Cesium.buildModuleUrl('Images/videoBorad.png');
                             break;
                         case 'background2':
-                            option.background = Cesium.buildModuleUrl('Widgets/Images/labelbackground1.png');
+                            option.background = Cesium.buildModuleUrl('Images/labelbackground1.png');
                             break;
                         case 'background3':
-                            option.background = Cesium.buildModuleUrl('Widgets/Images/labelbackground2.png');
+                            option.background = Cesium.buildModuleUrl('Images/labelbackground2.png');
                             break;
                         default:
-                            option.background = Cesium.buildModuleUrl('Widgets/Images/videoBorad.png');
+                            option.background = Cesium.buildModuleUrl('Images/videoBorad.png');
                             break;
                     }
                     pictureEntity.billboard._image.setValue(option.background);
@@ -323,8 +328,8 @@ LablesFactory.prototype.updatetype4 = function(option) {
                         var cartesian = entitys[i].position._value;
                         var ellipsoid = viewer.scene.globe.ellipsoid;
                         var cartographic = ellipsoid.cartesianToCartographic(cartesian);
-                        var lat = Cesium.Maths.toDegrees(cartographic.latitude);
-                        var lng = Cesium.Maths.toDegrees(cartographic.longitude);
+                        var lat = Cesium.Math.toDegrees(cartographic.latitude);
+                        var lng = Cesium.Math.toDegrees(cartographic.longitude);
                         cartesian2 = Cesium.Cartesian3.fromDegrees(lng, lat, option.height, ellipsoid);
                         entitys[i].position._value = cartesian2;
                         entitys[i].description.heights = option.height;
@@ -497,6 +502,66 @@ LablesFactory.prototype.updatetype9 = function(option) {
     }
 };
 
+
+LablesFactory.prototype.updatetype10 = function(option) {
+    var viewer = this.viewer;
+    var cartesian2;
+    if (LabelUtils.pdValues(option)) {
+        if (LabelUtils.pdValues(option.id)) {
+            var entity = viewer.entities.getById(option.id);
+            var pictureEntity = viewer.entities.getById('picture' + option.id);
+            if (LabelUtils.pdValues(entity)) {
+                if (LabelUtils.pdValues(option.color) && LabelUtils.pdValues(option.text)) {
+                    var colorcanvas = LabelUtils.updateCanvas(option.text, option.color);
+                    entity.billboard._image.setValue(colorcanvas);
+                }
+                if (LabelUtils.pdValues(option.height)) {
+                    var cartesian = entity.position._value;
+                    cartesian2 = LabelUtils.transCoordinate(viewer, cartesian, option.height);
+                    entity.position.setValue(cartesian2);
+                    entity.description = { heights: option.height };
+                }
+                if (LabelUtils.pdValues(option.size)) {
+                    entity.billboard.scale = option.size;
+                }
+                if (LabelUtils.pdValues(option.isChange)) {
+                    entity.billboard.scale = option.isChange;
+                }
+            }
+            if (LabelUtils.pdValues(pictureEntity)) {
+                if (LabelUtils.pdValues(option.size)) {
+                    pictureEntity.billboard.scale = option.size;
+                }
+                if (LabelUtils.pdValues(option.height)) {
+                    pictureEntity.position._value = cartesian2;
+                }
+                if (LabelUtils.pdValues(option.panColor)) {
+                    option.panColor = LabelUtils.paseRgba(option.panColor, 'GLH');
+                    pictureEntity.ellipse._material = new ElliposidFadeMaterialProperty(CesiumUtils.getCesiumColor(option.panColor), 4000);
+                }
+                if (LabelUtils.pdValues(option.background)) {
+                    switch (option.background) {
+                        case 'background1':
+                            option.background = Cesium.buildModuleUrl('Images/videoBorad.png');
+                            break;
+                        case 'background2':
+                            option.background = Cesium.buildModuleUrl('Images/labelbackground1.png');
+                            break;
+                        case 'background3':
+                            option.background = Cesium.buildModuleUrl('Images/labelbackground2.png');
+                            break;
+                        default:
+                            option.background = Cesium.buildModuleUrl('Images/videoBorad.png');
+                            break;
+                    }
+                    pictureEntity.billboard._image.setValue(option.background);
+                }
+            }
+        }
+    }
+};
+
+
 LablesFactory.prototype.update = function() {
     var option = this.options;
     if (LabelUtils.pdValues(option)) {
@@ -525,6 +590,9 @@ LablesFactory.prototype.update = function() {
                     break;
                 case 'type9':
                     this.updatetype9(option);
+                    break;
+                case 'type10':
+                    this.updatetype10(option);
                     break;
             }
         }

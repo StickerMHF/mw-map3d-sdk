@@ -1,7 +1,5 @@
 const { Cesium } = DC.Namespace
 
-import Color from '../../utils/Color.js';
-
 import flashingLightFun from './flashingLightFun.js';
 
 function flashingLight(viewer) {
@@ -9,8 +7,8 @@ function flashingLight(viewer) {
 }
 
 flashingLight.prototype.create = function() {
-    var cartographicCenter = new Cesium.Cartographic(Cesium.Maths.toRadians(108.942337), Cesium.Maths.toRadians(34.260978), 0);
-    var scanColor = new Color(0.3686, 0.67, 0.945, 0.1);
+    var cartographicCenter = new Cesium.Cartographic(Cesium.Math.toRadians(108.942337), Cesium.Math.toRadians(34.260978), 0);
+    var scanColor = new Cesium.Color(0.3686, 0.67, 0.945, 0.1);
     var maxRadius = 3000;
     var duration = 10000;
     var viewer = this.viewer;
@@ -88,7 +86,7 @@ flashingLight.prototype.create = function() {
                 _scratchCartesian3Normal.y = temp1.y - temp.y;
                 _scratchCartesian3Normal.z = temp1.z - temp.z;
 
-                Cartesian3.normalize(_scratchCartesian3Normal, _scratchCartesian3Normal);
+                Cesium.Cartesian3.normalize(_scratchCartesian3Normal, _scratchCartesian3Normal);
                 return _scratchCartesian3Normal;
             },
             u_radius: function() {

@@ -18,14 +18,26 @@ import labeltype6 from './Effect/Label/labeltype6.js';
 import labeltype7 from './Effect/Label/labeltype7.js';
 import labeltype8 from './Effect/Label/labeltype8.js';
 import labeltype9 from './Effect/Label/labeltype9.js';
+import labeltype10 from './Effect/Label/labeltype10.js';
+
 import LabelUtils from './Effect/Label/LabelUtils.js';
 import Drawing from './Effect/graphicsDrawing/Drawing.js';
 import flashingLight from './Effect/globelEffect/flashingLight.js';
 import flyAround from './Effect/globelEffect/flyAround.js';
 import defined from './utils/defined.js';
 // import Tools from './utils/utils.js';
+import PostProcessStageLibrary from './other/PostProcessStageLibrary.js';
 import Snow from './Special/Snow.js';
 import Rain from './Special/Rain.js';
+
+import DomUtil from './utils/DomUtil.js';
+import Util from './utils/Util.js';
+
+
+import {
+  LayerEventType
+} from './utils/EventType.js'
+
 
 var defaultOptions = {
     widgets: {
@@ -43,8 +55,17 @@ var defaultOptions = {
     // tiles3DLayers: [{url : styele:}]
 };
 
+var myViewer = null;
+var layerCache = {};
+var myThis = null;
+
+var chartsFun = null;
+
 var DrawObj;
 function Map3D(id, options,callback) {
+  console.log(id)
+  console.log(options)
+  console.log(callback)
     // this.options = Tools.extend(true, options, defaultOptions);
     this.options = Cesium.defaultValue(options, defaultOptions);
     this.cesium = {};
@@ -59,10 +80,13 @@ function Map3D(id, options,callback) {
     this.initMap(id);
 
     callback(this);
-}
 
+    myThis = this
+    console.log('myThis', myThis)
+}
 //初始化底图
 Map3D.prototype.initMap = function(id) {
+
     this.cesium.viewer = new Cesium.Viewer(id, {
         animation: false, //是否显示动画控件
         geocoder: false,
@@ -78,6 +102,30 @@ Map3D.prototype.initMap = function(id) {
         terrainShadows: Cesium.ShadowMode.DISABLED,
         baseLayerPicker: false
     });
+
+    myViewer = this.cesium.viewer
+
+    this._dcContainer = DomUtil.create(
+      'div',
+      'dc-container',
+      document.getElementById(id)
+    ) //Register the custom container
+
+
+
+    this._layerCache = {}
+    layerCache = this._layerCache
+
+    // 地图初始化的时候就创建dom元素
+    // var myDiv = document.getElementById(id);
+    // var htmlDiv = document.createElement('div');
+    // htmlDiv.setAttribute("id", "dc-container")
+    // htmlDiv.setAttribute("style","display: block;overflow: hidden;");
+    // myDiv.appendChild(htmlDiv)
+    // console.log('myElement', myDiv)
+    // var myLayer = new DC.HtmlLayer('layers')
+    // console.log('666666666666666666666666', myLayer)
+
 
     this.cesium.viewer.scene.globe.depthTestAgainstTerrain = true;
     //创建右上角的旋转的按钮
@@ -125,7 +173,7 @@ Map3D.prototype.initMap = function(id) {
 
     //底图设置
     this.cesium.widgets = new CustomWidgets(this.cesium.viewer, this.options.widgets);
-    this.cesium.baseImageryLayers = new BaseImageryLayers(this.cesium.viewer, this.options.baseImageryLayers);
+    this.cesium.baseImageryLayers = new BaseImageryLayers(this.cesium.viewer, this.options.baseImageryLayers ? this.options.baseImageryLayers : defaultOptions.baseImageryLayers);
 
     this.cesium.viewer.scene.globe.showGroundAtmosphere = false;
 
@@ -211,8 +259,46 @@ Map3D.prototype.initMap = function(id) {
         });
     }
     //恢复功能
-    this.Renew();
+    let thats = this
+    setTimeout(function () {
+      thats.Renew();
+      console.log("3333333333333333333",new Date())
+     }, 2000);
 
+};
+
+// 自定义一个添加图层的方法
+Map3D.prototype.addLayer = function(layer) {
+  if (layer && layer.layerEvent) {
+    !layerCache[layer.type] && (layerCache[layer.type] = {})
+    if (!Object(layerCache[layer.type]).hasOwnProperty(layer.id)) {
+      layer.layerEvent.fire(LayerEventType.ADD, this)
+      layerCache[layer.type][layer.id] = layer
+    }
+  }
+  return this
+};
+
+// 自定义一个返回视图Viewer的方法
+Map3D.prototype.getViewers = function() {
+    return myViewer
+};
+
+// 自定义一个返回视图Map3D的方法
+Map3D.prototype.getMap3D = function() {
+    return myThis
+};
+
+// 自定义一个保存回调函数的方法
+Map3D.prototype.saveChartclick = function(funDiv) {
+  chartsFun = funDiv
+};
+
+// 自定义一个返回点击事件的触发方法
+Map3D.prototype.clickDivChart = function(obj, val) {
+  if (chartsFun) {
+    chartsFun(obj, val)
+  }
 };
 
 //销毁
@@ -348,14 +434,14 @@ Map3D.prototype.flyToEntity = function(id) {
     if (LabelUtils.pdValues(entity)) {
         var ellipsoid = this.cesium.viewer.scene.globe.ellipsoid;
         var cartographic = ellipsoid.cartesianToCartographic(entity.position._value);
-        var lat = Cesium.Maths.toDegrees(cartographic.latitude);
-        var lng = Cesium.Maths.toDegrees(cartographic.longitude);
+        var lat = Cesium.Math.toDegrees(cartographic.latitude);
+        var lng = Cesium.Math.toDegrees(cartographic.longitude);
         var newcartesian = Cesium.Cartesian3.fromDegrees(lng, lat - 0.007, (LabelUtils.pdValues(entity.description) ? entity.description.getValue().heights : 0) + 700, ellipsoid);
         this.cesium.viewer.camera.flyTo({
             destination: newcartesian,
             orientation: {
-                heading: Cesium.Maths.toRadians(0.0),
-                pitch: Cesium.Maths.toRadians(-35.0),
+                heading: Cesium.Math.toRadians(0.0),
+                pitch: Cesium.Math.toRadians(-35.0),
                 roll: 0.0
             }
         });
@@ -495,7 +581,7 @@ Map3D.prototype.rainShow = function(flag) {
                 name: 'czm_rain',
                 fragmentShader: Rain
             });
-            rain = Cesium.PostProcessStageLibrary.createRainStage();
+            rain = PostProcessStageLibrary.createRainStage();
             collection.add(rain);
             var index = collection.length - 1;
             this.stage2 = collection._stages[index];
@@ -588,10 +674,14 @@ Map3D.prototype.Renew = function() {
                             case 'type9':
                                 new labeltype9(viewer, Label, null);
                                 break;
+                            case 'type10':
+                                new labeltype10(viewer, Label, null);
+                                break;
                             default:
                                 break;
                         }
                     }
+
                 });
             }
         }

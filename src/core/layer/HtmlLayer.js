@@ -38,7 +38,14 @@ class HtmlLayer extends Layer {
    */
   _addHandler(viewer) {
     this._viewer = viewer
-    this._viewer.dcContainer.appendChild(this._delegate)
+    if (this._viewer.dcContainer) {
+      this._viewer.dcContainer.appendChild(this._delegate)
+    } else {
+      // 获取Viewer(自定义)
+      this._viewer = viewer.getViewers();
+      this._viewer.dcDiv = viewer.getMap3D();
+      this._viewer.dcDiv._dcContainer.appendChild(this._delegate)
+    }
     let scene = this._viewer.scene
     this._renderRemoveCallback = scene.postRender.addEventListener(() => {
       let cameraPosition = this._viewer.camera.positionWC
@@ -64,6 +71,12 @@ class HtmlLayer extends Layer {
   _removeHandler() {
     this._renderRemoveCallback && this._renderRemoveCallback()
     this._viewer.dcContainer.removeChild(this._delegate)
+
+    // 删除掉已经添加的div(自定义)
+    if (this._viewer.dcDiv) {
+      this._viewer.dcDiv.removeChild(this._delegate)
+    }
+
     this._state = State.REMOVED
   }
 

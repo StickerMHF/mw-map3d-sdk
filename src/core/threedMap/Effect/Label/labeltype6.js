@@ -1,8 +1,9 @@
 const { Cesium } = DC.Namespace
 
-import Color from '../../utils/Color';
 import CesiumUtils from '../../utils/CesiumUtils';
 import LabelUtils from './LabelUtils.js';
+
+import CustomElements from '../../CustomGeometrys/CustomElements.js';
 
 
 function labeltype6(viewer, options, getCreateID) {
@@ -54,7 +55,7 @@ function labeltype6(viewer, options, getCreateID) {
             length: 600 + position[2],
             topRadius: 200,
             bottomRadius: 200,
-            material: new Color(1, 1, 1, 0.005),
+            material: new Cesium.Color(1, 1, 1, 0.005),
             heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
         }
     });
@@ -62,20 +63,20 @@ function labeltype6(viewer, options, getCreateID) {
     //添加实体1
     var instance = new Cesium.GeometryInstance({
         id: 'billboard' + id + 'instance1',
-        geometry: new Cesium.CustomElements(),
+        geometry: new CustomElements(),
         modelMatrix: Cesium.Transforms.eastNorthUpToFixedFrame(ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(position[0], position[1], position[2]))),
         attributes: {
-            color: Cesium.ColorGeometryInstanceAttribute.fromColor(new Color(0.5, 0.8, 1, 0.5))
+            color: Cesium.ColorGeometryInstanceAttribute.fromColor(new Cesium.Color(0.5, 0.8, 1, 0.5))
         }
     });
 
     //添加实体2
     var instance2 = new Cesium.GeometryInstance({
         id: 'billboard' + id + 'instance2',
-        geometry: Cesium.GeometryPipeline.toWireframe(new Cesium.CustomElements()),
+        geometry: Cesium.GeometryPipeline.toWireframe(new CustomElements()),
         modelMatrix: Cesium.Transforms.eastNorthUpToFixedFrame(ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(position[0], position[1], position[2]))),
         attributes: {
-            color: Cesium.ColorGeometryInstanceAttribute.fromColor(new Color(1.0, 1.0, 0.0, 1))
+            color: Cesium.ColorGeometryInstanceAttribute.fromColor(new Cesium.Color(1.0, 1.0, 0.0, 1))
         }
     });
 
@@ -87,8 +88,8 @@ function labeltype6(viewer, options, getCreateID) {
             fabric: {
                 type: 'Wood',
                 uniforms: {
-                    lightWoodColor: new Color(0.7, 0.4, 0.1, 1.0),
-                    darkWoodColor: new Color(0.3, 0.1, 0.0, 1.0),
+                    lightWoodColor: new Cesium.Color(0.7, 0.4, 0.1, 1.0),
+                    darkWoodColor: new Cesium.Color(0.3, 0.1, 0.0, 1.0),
                     ringFrequency: 4.0,
                     grainFrequency: 18.0
                 }
@@ -123,7 +124,7 @@ function labeltype6(viewer, options, getCreateID) {
 
         Cesium.Matrix4.multiplyByUniformScale(m, (entitys.description.getValue(0).size * 1.0 / 3.0) || 1.0, m);
         //RotateX为旋转角度，转为弧度再参与运算
-        var m1 = Cesium.Matrix3.fromRotationZ(Cesium.Maths.toRadians(testPrimitiveRotate));
+        var m1 = Cesium.Matrix3.fromRotationZ(Cesium.Math.toRadians(testPrimitiveRotate));
 
         //矩阵计算m
         Cesium.Matrix4.multiplyByMatrix3(m, m1, m);

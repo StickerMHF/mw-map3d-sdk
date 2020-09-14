@@ -1,8 +1,9 @@
 const { Cesium } = DC.Namespace
 
 
+import PolylineTrailLinkMaterial from '../Material/PolylineTrailLinkMaterial.js';
+
 import CesiumUtils from '../utils/CesiumUtils';
-import Color from '../utils/Color.js';
 
 function Upinggrain(viewer, Upinggrainoption) {
     this.viewer = viewer;
@@ -12,9 +13,9 @@ function Upinggrain(viewer, Upinggrainoption) {
 Upinggrain.prototype.add = function() {
     var viewer = this.viewer;
     var upingGrainOption = this.Upinggrainoption;
-    var color = new Color(0.529, 0.807, 0.980, 1);
-    var outcolor = new Color(0.529, 0.807, 0.980, 0.1);
-    var material = new Cesium.PolylineTrailLinkMaterial(color, upingGrainOption.timeInterval);
+    var color = new Cesium.Color(0.529, 0.807, 0.980, 1);
+    var outcolor = new Cesium.Color(0.529, 0.807, 0.980, 0.1);
+    var material = new PolylineTrailLinkMaterial(color, upingGrainOption.timeInterval);
     var Points = upingGrainOption.Points;
     for (var i = 0; i < Points.length; i++) {
         var pointArr = [];

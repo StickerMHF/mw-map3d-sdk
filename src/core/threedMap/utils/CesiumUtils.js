@@ -7,7 +7,7 @@
  * @FilePath: \map3d-designer-sdk\Source\Utils\CesiumUtils.js
  */
 
-import Color from './Color.js';
+const { Cesium } = DC.Namespace
 
 // eslint-disable-next-line no-unused-vars
 function CesiumUtils() {
@@ -58,7 +58,7 @@ CesiumUtils.getCesiumColor = function(ColorArr) {
     var g = ColorArr[1];
     var b = ColorArr[2];
     var a = ColorArr[3];
-    return new Color(r, g, b, a);
+    return new Cesium.Color(r, g, b, a);
 };
 
 CesiumUtils.randomNum = function(minNum, maxNum) {

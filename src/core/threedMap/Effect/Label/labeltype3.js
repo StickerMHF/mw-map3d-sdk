@@ -9,7 +9,6 @@
 
 const { Cesium } = DC.Namespace
 
-import Color from '../../utils/Color';
 import CesiumUtils from '../../utils/CesiumUtils';
 import LabelUtils from './LabelUtils.js';
 
@@ -60,7 +59,7 @@ function labeltype3(viewer, options, getCreateID) {
             length: 400,
             topRadius: 180,
             bottomRadius: 180,
-            material: new Color(1, 1, 1, 0.01)
+            material: new Cesium.Color(1, 1, 1, 0.01)
         }, ellipse: {
             semiMinorAxis: 50,
             semiMajorAxis: 50,

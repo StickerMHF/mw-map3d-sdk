@@ -20,10 +20,72 @@
     <div id="sdMap"></div>
 	</body>
   <script type="text/javascript">
-    DC.ready(() => {
-      // let optionMap = {}
-      let callback = function () {}
-      let viewer = new DC.Map3D("sdMap", null, callback)
-    })
+    // DC.ready(() => {
+    //   // let optionMap = {}
+    //   // let callback = function () {}
+    //   // let viewer = new DC.Map3D("sdMap", null, callback)
+
+    //   var viewer = DC.Viewer('sdMap')
+    // })
+
+   // DC.ready(() => {
+   //   let viewer = new DC.Viewer('sdMap')
+   //   console.log(viewer)
+   // })
+
+    let viewer = undefined
+    // 循环创建
+    function generatePosition(num) {
+       var list = []
+       for (var i = 0; i < num; i++) {
+         var lng = 120.38105869 + Math.random() * 0.5
+         var lat = 31.10115627 + Math.random() * 0.5
+         list.push(new DC.Position(lng, lat))
+       }
+       return list
+     }
+
+     function initViewer() {
+       // 创建三维场景
+       viewer = new DC.Viewer('sdMap')
+       let baselayer = DC.ImageryLayerFactory.createGoogleImageryLayer({
+         style: 'img'
+       })
+       // 添加地图
+       viewer.addBaseLayer(baselayer)
+
+
+       let layer = new DC.HtmlLayer('layer')
+       viewer.addLayer(layer)
+
+       // console.log(viewer)
+       // console.log(viewer.addLayer)
+
+       // 返回一个经纬度数组
+       let positions = generatePosition(5)
+
+
+       // 将经纬度数组给DivIcon数组
+       positions.forEach((item, index) => {
+         let divIcon = new DC.DivIcon(
+           item,
+           `<div style="width:400px;background:rgba(255,255,0,0.2)">我是一个div，你可以对我添加css样式和内容</div>`
+         )
+         layer.addOverlay(divIcon)
+       })
+
+
+
+
+       // 地图加载飞到对应的位置
+       viewer.flyToPosition(
+        // 返回位置数据
+        new DC.Position(120.38105869, 31.10115627, 10000, 0, -90)
+       )
+     }
+     DC.ready(initViewer)
+
+      // console.log(viewer)
+
   </script>
 </html>

@@ -22,7 +22,7 @@ flyAround.prototype.start = function() {
 
     var position = Cesium.Cartesian3.fromDegrees(centerx, cnetery, this.option.sts[3]);
     // 相机看点的角度，如果大于0那么则是从地底往上看，所以要为负值，这里取-30度
-    var pitch = Cesium.Maths.toRadians(-30);
+    var pitch = Cesium.Math.toRadians(-30);
     // 给定飞行一周所需时间，比如10s, 那么每秒转动度数
     var angle = -this.option.speed;
     // var angle = - 360 / 80;
@@ -38,7 +38,7 @@ flyAround.prototype.start = function() {
     var Exection = function TimeExecution() {
         // 当前已经过去的时间，单位s
         var delTime = Cesium.JulianDate.secondsDifference(viewer.clock.currentTime, viewer.clock.startTime);
-        var heading = Cesium.Maths.toRadians(delTime * angle) + initialHeading;
+        var heading = Cesium.Math.toRadians(delTime * angle) + initialHeading;
         viewer.scene.camera.setView({
             destination: position, // 点的坐标
             orientation: {
