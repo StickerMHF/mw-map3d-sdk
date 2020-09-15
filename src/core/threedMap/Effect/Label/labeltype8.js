@@ -1,6 +1,5 @@
 const { Cesium } = DC.Namespace
 
-import Color from '../../utils/Color';
 import CesiumUtils from '../../utils/CesiumUtils';
 import LabelUtils from './LabelUtils.js';
 
@@ -21,25 +20,25 @@ function labeltype8(viewer, options, getCreateID) {
     var imgUrl;
     switch (background) {
         case 'icon1':
-            imgUrl = Cesium.buildModuleUrl('../../Images/PublicIcon/1.png');
+            imgUrl = Cesium.buildModuleUrl('Images/PublicIcon/1.png');
             break;
         case 'icon2':
-            imgUrl = Cesium.buildModuleUrl('../../Images/PublicIcon/2.png');
+            imgUrl = Cesium.buildModuleUrl('Images/PublicIcon/2.png');
             break;
         case 'icon3':
-            imgUrl = Cesium.buildModuleUrl('../../Images/PublicIcon/3.png');
+            imgUrl = Cesium.buildModuleUrl('Images/PublicIcon/3.png');
             break;
         case 'icon4':
-            imgUrl = Cesium.buildModuleUrl('../../Images/PublicIcon/4.png');
+            imgUrl = Cesium.buildModuleUrl('Images/PublicIcon/4.png');
             break;
         case 'icon5':
-            imgUrl = Cesium.buildModuleUrl('../../Images/PublicIcon/5.png');
+            imgUrl = Cesium.buildModuleUrl('Images/PublicIcon/5.png');
             break;
         case 'icon6':
-            imgUrl = Cesium.buildModuleUrl('../../Images/PublicIcon/6.png');
+            imgUrl = Cesium.buildModuleUrl('Images/PublicIcon/6.png');
             break;
         default:
-            imgUrl = Cesium.buildModuleUrl('../../Images/PublicIcon/1.png');
+            imgUrl = Cesium.buildModuleUrl('Images/PublicIcon/1.png');
             break;
     }
     var imgs = new Image();
@@ -70,7 +69,7 @@ function labeltype8(viewer, options, getCreateID) {
                 length: 400,
                 topRadius: 180,
                 bottomRadius: 180,
-                material: new Color(1, 1, 1, 0.01)
+                material: new Cesium.Color(1, 1, 1, 0.01)
             }
         });
         var st = {

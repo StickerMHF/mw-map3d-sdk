@@ -34,6 +34,8 @@ Object.defineProperties(BaseImageryLayers.prototype, {
 BaseImageryLayers.prototype.createBaseImageryLayers = function() {
     var that = this;
     if (this.options.length > 0) { this.viewer.imageryLayers.removeAll(); }
+    // let newOptis = []
+    // newOptis = that.options
     this.options.forEach(function(layer) {
         var imageryProvider = null;
         switch (layer.type) {

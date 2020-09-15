@@ -1,6 +1,6 @@
 const { Cesium } = DC.Namespace
 
-import Color from '../utils/Color.js';
+import PolylineTrailLinkMaterial from '../Material/PolylineTrailLinkMaterial.js';
 
 function ODLines(viewer, RayLineparams) {
     this.viewer = viewer;
@@ -10,10 +10,10 @@ function ODLines(viewer, RayLineparams) {
 ODLines.prototype.add = function() {
     var viewer = this.viewer;
     var RayLineparams = this.RayLineparams;
-    var color = new Color(1, 0, 0, 1);
-    var outcolor = new Color(1, 0.882, 0.678, 0.2);
+    var color = new Cesium.Color(1, 0, 0, 1);
+    var outcolor = new Cesium.Color(1, 0.882, 0.678, 0.2);
     var toPoints = this.RayLineparams.toPonit;
-    var material = new Cesium.PolylineTrailLinkMaterial(color, RayLineparams.timeInterval);
+    var material = new PolylineTrailLinkMaterial(color, RayLineparams.timeInterval);
     var pointArrOD = [];
     for (var i = 0; i < toPoints.length; i++) {
         pointArrOD.push(toPoints[i].lon, toPoints[i].lat);

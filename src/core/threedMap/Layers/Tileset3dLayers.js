@@ -12,6 +12,7 @@ import CesiumUtils from '../utils/CesiumUtils';
 // 自己写的方法
 import LabelUtils from '../Effect/Label/LabelUtils.js';
 
+
 var defaultOptions = { tiles3DLayers: null };
 //控制3dtile的显示和隐藏
 var isShow = false;

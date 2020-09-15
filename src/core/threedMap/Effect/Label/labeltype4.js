@@ -34,19 +34,19 @@ function labeltype4(viewer, options, getCreateID) {
     var backgroundPicture;
     switch (background) {
         case 'background1':
-            backgroundPicture = Cesium.buildModuleUrl('../../Images/videoBorad.png');
+            backgroundPicture = Cesium.buildModuleUrl('Images/videoBorad.png');
             break;
         case 'background2':
-            backgroundPicture = Cesium.buildModuleUrl('../../Images/labelbackground1.png');
+            backgroundPicture = Cesium.buildModuleUrl('Images/labelbackground1.png');
             break;
         case 'background3':
-            backgroundPicture = Cesium.buildModuleUrl('../../Images/labelbackground2.png');
+            backgroundPicture = Cesium.buildModuleUrl('Images/labelbackground2.png');
             break;
         case 'null':
             backgroundPicture = null;
             break;
         default:
-            backgroundPicture = Cesium.buildModuleUrl('../../Images/videoBorad.png');
+            backgroundPicture = Cesium.buildModuleUrl('Images/videoBorad.png');
             break;
     }
 
@@ -138,5 +138,7 @@ function labeltype4(viewer, options, getCreateID) {
         };
         getCreateID(st);
     }
+
+	console.log("555555555555",canvas)
 }
 export default labeltype4;

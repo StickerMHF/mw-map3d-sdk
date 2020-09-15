@@ -29,9 +29,6 @@ import Transform from '../transform/Transform'
 import Parse from '../parse/Parse'
 
 const { Cesium } = DC.Namespace
-console.log("gougou", DC)
-console.log("gougou", DC.Namespace)
-console.log("gougou", Cesium)
 
 const DEF_OPTS = {
   animation: false, //Whether to create animated widgets, lower left corner of the meter

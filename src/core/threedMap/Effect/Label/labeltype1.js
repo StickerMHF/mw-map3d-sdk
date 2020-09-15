@@ -1,6 +1,5 @@
 const { Cesium } = DC.Namespace
 
-import Color from '../../utils/Color';
 import CesiumUtils from '../../utils/CesiumUtils';
 import LabelUtils from './LabelUtils.js';
 
@@ -27,16 +26,16 @@ function labeltype1(viewer, options, getCreateID) {
     var backgroundPicture;
     switch (background) {
         case 'background1':
-            backgroundPicture = Cesium.buildModuleUrl('../../Images/videoBorad.png');
+            backgroundPicture = Cesium.buildModuleUrl('Images/videoBorad.png');
             break;
         case 'background2':
-            backgroundPicture = Cesium.buildModuleUrl('../../Images/labelbackground1.png');
+            backgroundPicture = Cesium.buildModuleUrl('Images/labelbackground1.png');
             break;
         case 'background3':
-            backgroundPicture = Cesium.buildModuleUrl('../../Images/labelbackground2.png');
+            backgroundPicture = Cesium.buildModuleUrl('Images/labelbackground2.png');
             break;
         default:
-            backgroundPicture = Cesium.buildModuleUrl('../../Images/videoBorad.png');
+            backgroundPicture = Cesium.buildModuleUrl('Images/videoBorad.png');
             break;
     }
     var canvas = LabelUtils.createHiDPICanvas(100, 50, 25);
@@ -52,6 +51,8 @@ function labeltype1(viewer, options, getCreateID) {
     while (rolladd <= roll) {
         ctx.fillText(text.substring((rolladd - 1) * 14, rolladd * 14), 50, 25 + (rolladd - 1) * 7);
         rolladd++;
+        
+    console.log("99999999999999999999",canvas)
     }
 
     viewer.entities.add({
@@ -93,7 +94,7 @@ function labeltype1(viewer, options, getCreateID) {
             length: 1000 + position[2],
             topRadius: 200,
             bottomRadius: 200,
-            material: new Color(1, 1, 1, 0.01)
+            material: new Cesium.Color(1, 1, 1, 0.01)
         }
     });
     var st = {

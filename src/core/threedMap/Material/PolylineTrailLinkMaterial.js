@@ -1,6 +1,5 @@
 const { Cesium } = DC.Namespace
 
-import Color from '../utils/Color.js';
 import defined from '../utils/defined.js';
 
 function PolylineTrailLinkMaterialProperty(color, duration) {
@@ -31,7 +30,7 @@ PolylineTrailLinkMaterialProperty.prototype.getValue = function(time, result) {
     if (!defined(result)) {
         result = {};
     }
-    result.color = Cesium.Property.getValueOrClonedDefault(this._color, time, Color.WHITE, result.color);
+    result.color = Cesium.Property.getValueOrClonedDefault(this._color, time, Cesium.Color.WHITE, result.color);
     result.image = Cesium.Material.PolylineTrailLinkImage;
     result.time = (((new Date()).getTime() - this._time) % this.duration) / this.duration;
     return result;
@@ -58,7 +57,7 @@ Cesium.Material._materialCache.addMaterial(Cesium.Material.PolylineTrailLinkType
     fabric: {
         type: Cesium.Material.PolylineTrailLinkType,
         uniforms: {
-            color: new Color(1.0, 0.0, 0.0, 0.5),
+            color: new Cesium.Color(1.0, 0.0, 0.0, 0.5),
             image: Cesium.Material.PolylineTrailLinkImage,
             time: 0
         },

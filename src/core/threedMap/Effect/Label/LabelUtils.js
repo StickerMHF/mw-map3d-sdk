@@ -225,25 +225,25 @@ LabelUtils.updateCanvas8 = function(text, background, callback, color) {
 
     switch (background) {
         case 'icon1':
-            background = Cesium.buildModuleUrl('../../Images/PublicIcon/1.png');
+            background = Cesium.buildModuleUrl('Images/PublicIcon/1.png');
             break;
         case 'icon2':
-            background = Cesium.buildModuleUrl('../../Images/PublicIcon/2.png');
+            background = Cesium.buildModuleUrl('Images/PublicIcon/2.png');
             break;
         case 'icon3':
-            background = Cesium.buildModuleUrl('../../Images/PublicIcon/3.png');
+            background = Cesium.buildModuleUrl('Images/PublicIcon/3.png');
             break;
         case 'icon4':
-            background = Cesium.buildModuleUrl('../../Images/PublicIcon/4.png');
+            background = Cesium.buildModuleUrl('Images/PublicIcon/4.png');
             break;
         case 'icon5':
-            background = Cesium.buildModuleUrl('../../Images/PublicIcon/5.png');
+            background = Cesium.buildModuleUrl('Images/PublicIcon/5.png');
             break;
         case 'icon6':
-            background = Cesium.buildModuleUrl('../../Images/PublicIcon/6.png');
+            background = Cesium.buildModuleUrl('Images/PublicIcon/6.png');
             break;
         default:
-            background = Cesium.buildModuleUrl('../../Images/PublicIcon/1.png');
+            background = Cesium.buildModuleUrl('Images/PublicIcon/1.png');
             break;
     }
 
@@ -286,6 +286,47 @@ LabelUtils.updateCanvas9 = function(title, text, color) {
     return labelCanvas;
 };
 
+
+LabelUtils.updateCanvas10 = function(text, color) {
+
+    // switch (background) {
+    //     case 'background1':
+    //         background = 'http://q83x8nxjf.bkt.clouddn.com/videoBorad.png';
+    //         break;
+    //     case 'background2':
+    //         background = 'http://q83x8nxjf.bkt.clouddn.com/labelbackground1.png';
+    //         break;
+    //     case 'background3':
+    //         background = 'http://q83x8nxjf.bkt.clouddn.com/labelbackground2.png';
+    //         break;
+    //     default:
+    //         background = 'http://q83x8nxjf.bkt.clouddn.com/videoBorad.png';
+    //         break;
+    // }
+
+    // var imgs = new Image();
+    // imgs.crossOrigin = 'anonymous';
+    // imgs.src = background;
+    var canvas = LabelUtils.createHiDPICanvas(100, 50, 15);
+    // imgs.onload = function() {
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, 100, 50);
+    ctx.strokeStyle = color;
+    ctx.font = '6px 微软雅黑';
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    var str = text.length;
+    var roll = Math.ceil(str / 14) <= 3 ? Math.ceil(str / 14) : 3;
+    var rolladd = 1;
+    while (rolladd <= roll) {
+        ctx.fillText(text.substring((rolladd - 1) * 14, rolladd * 14), 50, 25 + (rolladd - 1) * 7);
+        rolladd++;
+    }
+    // ctx.drawImage(this, 0, 0, 100, 50);
+    // };
+    return canvas;
+};
+
 LabelUtils.paseRgba = function(str, type) {
     if (type === null) {
         type = 'null';
@@ -306,8 +347,8 @@ LabelUtils.paseRgba = function(str, type) {
 LabelUtils.transCoordinate = function(viewer, cartesian, height) {
     var ellipsoid = viewer.scene.globe.ellipsoid;
     var cartographic = ellipsoid.cartesianToCartographic(cartesian);
-    var lat = Cesium.Maths.toDegrees(cartographic.latitude);
-    var lng = Cesium.Maths.toDegrees(cartographic.longitude);
+    var lat = Cesium.Math.toDegrees(cartographic.latitude);
+    var lng = Cesium.Math.toDegrees(cartographic.longitude);
     var cartesian2 = Cesium.Cartesian3.fromDegrees(lng, lat, height, ellipsoid);
     return cartesian2;
 };
