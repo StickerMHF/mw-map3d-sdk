@@ -136,22 +136,8 @@ Map3D.prototype.initMap = function(id) {
             var button=document.createElement('span');
             button.style.height='35px';
             button.style.width='35px';
-            // button.style.position='absolute';
-            // button.style.top='40px';
-            // button.style.right='10px';
             button.style.zIndex=999;
             button.style.display='inherit';
-            // var svgs=document.createElement('svg');
-            // svgs.setAttribute('viewBox','0 0 1024 1024');
-
-            // svgs.style.height='30px';
-            // svgs.style.width='30px';
-            // var paths=document.createElement('path');
-            // paths.setAttribute('d','M510.16 64C317.68 64 146.56 182.864 84.368 359.776l60.8 20.192c53.328-151.648 200-253.52 364.976-253.52 190.976 0 349.984 135.632 380.352 312.96l-55.392-35.872-35.648 51.952 110.592 71.632a32.912 32.912 0 0 0 32.976 1.552c10.448-5.44 16.976-16 16.976-27.52C960 260.08 758.208 64 510.16 64z m3.696 833.552c-190.976 0-349.984-135.632-380.352-312.96l55.392 35.872 35.648-51.968-110.592-71.616a32.96 32.96 0 0 0-32.96-1.552c-10.464 5.424-16.992 16-16.992 27.52C64 763.92 265.792 960 513.856 960c192.512 0 363.616-118.864 425.776-295.776l-60.8-20.192C825.52 795.68 678.88 897.552 513.84 897.552z');
-
-            // paths.setAttribute('fill','#666666');
-            // svgs.appendChild(paths);
-            // button.appendChild(svgs);
             var imgs=document.createElement('img');
             imgs.src='http://db.mapwaycloud.com:10082/oss/c881f5ef5de54f689b4bd0bb66af09ac/file/tb_a8d8e174f7bb4b37acc5d53a350c800f.png';
             imgs.style.height='35px';

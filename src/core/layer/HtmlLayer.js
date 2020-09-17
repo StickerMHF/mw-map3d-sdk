@@ -42,8 +42,8 @@ class HtmlLayer extends Layer {
       this._viewer.dcContainer.appendChild(this._delegate)
     } else {
       // 获取Viewer(自定义)
-      this._viewer = viewer.getViewers();
-      this._viewer.dcDiv = viewer.getMap3D();
+      this._viewer = viewer.getViewers()
+      this._viewer.dcDiv = viewer.getMap3D()
       this._viewer.dcDiv._dcContainer.appendChild(this._delegate)
     }
     let scene = this._viewer.scene
@@ -57,13 +57,42 @@ class HtmlLayer extends Layer {
             position
           )
           let distance = Cesium.Cartesian3.distance(position, cameraPosition)
-          item._updateStyle({ transform: windowCoord }, distance)
+          item._updateStyle({ transform: windowCoord }, distance,this._getResolution())
         }
       })
     }, this)
     this._state = State.ADDED
   }
+  _getResolution() {
+    let scene = this._viewer.scene
+    // 获取画布的大小
+    var width = scene.canvas.clientWidth
+    var height = scene.canvas.clientHeight
+    //获取画布中心两个像素的坐标（默认地图渲染在画布中心位置）
+    var left = scene.camera.getPickRay(
+      new Cesium.Cartesian2((width / 2) | 0, (height - 1) / 2)
+    )
+    var right = scene.camera.getPickRay(
+      new Cesium.Cartesian2((1 + width / 2) | 0, (height - 1) / 2)
+    )
 
+    var globe = scene.globe
+    var leftPosition = globe.pick(left, scene)
+    var rightPosition = globe.pick(right, scene)
+
+    if (!Cesium.defined(leftPosition) || !Cesium.defined(rightPosition)) {
+      return
+    }
+
+    var leftCartographic = globe.ellipsoid.cartesianToCartographic(leftPosition)
+    var rightCartographic = globe.ellipsoid.cartesianToCartographic(
+      rightPosition
+    )
+    var geodesic = new Cesium.EllipsoidGeodesic()
+    geodesic.setEndPoints(leftCartographic, rightCartographic)
+    var resolution = geodesic.surfaceDistance //分辨率
+    return resolution
+  }
   /**
    * the layer removed handler function
    * subclasses need to be overridden

@@ -141,7 +141,7 @@ LablesFactory.prototype.add = function() {
     };
 
     this.mouseMoveAction = function(e) {
-        var cesiumContainer = document.getElementById('cesiumContainer');
+        var cesiumContainer = viewer.container;//document.getElementById('cesiumContainer');
         var moveOverEntity = viewer.scene.pick(e.endPosition);
         if (CesiumUtils.pdValues(moveOverEntity)) {
             if (CesiumUtils.pdValues(moveOverEntity.id) && typeof moveOverEntity.id !== 'string') {
@@ -506,9 +506,11 @@ LablesFactory.prototype.updatetype9 = function(option) {
 LablesFactory.prototype.updatetype10 = function(option) {
     var viewer = this.viewer;
     var cartesian2;
+    debugger
     if (LabelUtils.pdValues(option)) {
         if (LabelUtils.pdValues(option.id)) {
             var entity = viewer.entities.getById(option.id);
+            debugger
             var pictureEntity = viewer.entities.getById('picture' + option.id);
             if (LabelUtils.pdValues(entity)) {
                 if (LabelUtils.pdValues(option.color) && LabelUtils.pdValues(option.text)) {
